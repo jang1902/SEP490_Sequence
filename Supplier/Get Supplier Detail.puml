@@ -1,0 +1,21 @@
+@startuml
+header : giangmn
+title: View Supplier Detail
+autonumber
+
+participant "Web FE" as fe
+participant "Web BE" as be
+participant "Database" as db
+
+fe -> be: Request view Supplier Detail
+be++
+be -> db: Query get Supplier information
+db++
+db --> be: return result
+db--
+alt Supplier isn't existed/ query fail
+be -->> fe: Return fail message
+end
+
+be--> fe: return result
+@enduml
