@@ -1,0 +1,24 @@
+@startuml
+header : giangmn
+title: Call next schedule
+autonumber
+
+participant "Web FE" as fe
+participant "Web BE" as be
+participant "Database" as db
+
+fe -> be: Request Call next schedule
+be++
+be -> db: Query get next schedule
+db++
+db --> be: return result
+db--
+alt Schedule empty/ coming soon
+be -->> fe: Return error message
+end
+
+be->be: RoundToNearestQuarter()
+be++
+be--
+be --> fe: return result
+@enduml

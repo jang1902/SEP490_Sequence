@@ -1,22 +1,29 @@
 @startuml
 header : giangmn
-title: Get Patient List
+title: Update Patient
 autonumber
 
 participant "Web FE" as fe
 participant "Web BE" as be
 participant "Database" as db
 
-fe -> be: Request get Patient List
+fe -> be: Request update Patient List
 be++
 be -> be: Validate request
 alt Validate fail
 be -->> fe: Return fail message
 end
 
-be -> db: Query get all patient list
+be -> db: Query get Patient if Patient is existed
 db++
 db --> be: return result
+db--
+alt Patient isn't existed
+be -->> fe: Return fail message
+end
+be->db: update Patient information
+db++
+db--> be: return result
 db--
 be --> fe: return result
 @enduml

@@ -1,0 +1,21 @@
+@startuml
+header : giangmn
+title: View Patient Profile
+autonumber
+
+participant "Web FE" as fe
+participant "Web BE" as be
+participant "Database" as db
+
+fe -> be: Request view Patient Profile
+be++
+be -> db: Query get patient information
+db++
+db --> be: return result
+db--
+alt patient isn't existed/ query fail
+be -->> fe: Return fail message
+end
+
+be--> fe: return result
+@enduml
