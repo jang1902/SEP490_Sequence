@@ -3,15 +3,19 @@ header : giangmn
 title: Get all Supplier
 autonumber
 
+actor "Actor" as a
 participant "Web FE" as fe
 participant "Web BE" as be
-participant "Database" as db
+database "Database" as db
 
+a-> fe: Request get all Supplier
+fe++
 fe -> be: Request get all Supplier
 be++
 be -> be: Validate request
 alt Validate fail
 be -->> fe: Return fail message
+fe -->> a: Return fail message
 end
 
 be -> db: Query get all Supplier
@@ -19,4 +23,8 @@ db++
 db --> be: return result
 db--
 be --> fe: return result
+be--
+fe-->a: return result
+fe--
+
 @enduml

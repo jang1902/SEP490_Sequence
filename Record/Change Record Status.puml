@@ -3,10 +3,13 @@ header : giangmn
 title: Change Record Status
 autonumber
 
+actor "Actor" as a
 participant "Web FE" as fe
 participant "Web BE" as be
 participant "Database" as db
 
+a->fe: Request Change Record Status
+fe++
 fe -> be: Request Change Record Status
 be++
 be -> db: Query get Record
@@ -15,6 +18,7 @@ db --> be: return result
 db--
 alt Record not found
 be -->> fe: Return not found message
+fe -->> a: Show not found message
 end
 be -> db: Query get Schedule by Record's information
 db++
@@ -22,9 +26,13 @@ db --> be: return result
 db--
 alt Validate Schedule time fail
 be -->> fe: Return fail message
+fe -->> a: Show fail message
 end
 be->be: RoundToNearestQuarter()
 be++
 be--
 be --> fe: return result
+be--
+fe--> a: return result
+fe--
 @enduml

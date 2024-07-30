@@ -3,16 +3,20 @@ header : giangmn
 title: Create Patient
 autonumber
 
+actor "Actor" as a
 participant "Web FE" as fe
 participant "Web BE" as be
-participant "Database" as db
+database "Database" as db
 participant "Email Service" as es
 
+a->fe : Request create Patient
+fe++
 fe -> be: Request create Patient
 be++
 be -> be: Validate request
 alt Validate fail
 be -->> fe: Return fail message
+fe-->> a: Show fail message
 end
 
 be -> db: insert new patient
@@ -21,6 +25,8 @@ db --> be: return result
 db--
 alt fail create patient
 be -->> fe: Return fail message
+fe-->> a: Show fail message
+
 end
 alt Created Patient has Email
 be -> es: Call send mail service
@@ -31,6 +37,8 @@ es--
 es--
 end
 be --> fe: return result
+fe--> a: return result
+fe--
 be--
 
 @enduml

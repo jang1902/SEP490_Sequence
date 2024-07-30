@@ -3,10 +3,13 @@ header : giangmn
 title: Call next schedule
 autonumber
 
+participant "Actor" as a
 participant "Web FE" as fe
 participant "Web BE" as be
 participant "Database" as db
 
+a-> fe: Request Call next schedule
+fe++
 fe -> be: Request Call next schedule
 be++
 be -> db: Query get next schedule
@@ -15,10 +18,14 @@ db --> be: return result
 db--
 alt Schedule empty/ coming soon
 be -->> fe: Return error message
+fe -->> a: Return error message
 end
 
 be->be: RoundToNearestQuarter()
 be++
 be--
 be --> fe: return result
+be--
+fe--> a: return result
+fe--
 @enduml

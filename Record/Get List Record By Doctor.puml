@@ -3,10 +3,13 @@ header : giangmn
 title: Get List Record (Queue)
 autonumber
 
+actor "Actor" as a
 participant "Web FE" as fe
 participant "Web BE" as be
 participant "Database" as db
 
+a-> fe: Request get Record List
+fe++
 fe -> be: Request get Record List
 be++
 be -> db: Query get all patient list
@@ -15,6 +18,10 @@ db --> be: return result
 db--
 alt Record is empty
 be -->> fe: Return not available message
+fe-->> a: Return not available message
 end
 be --> fe: return result
+be--
+fe --> a: return result
+fe--
 @enduml

@@ -3,10 +3,13 @@ header : giangmn
 title: View Supplier Detail
 autonumber
 
+actor "Actor" as a
 participant "Web FE" as fe
 participant "Web BE" as be
-participant "Database" as db
+database "Database" as db
 
+a-> fe: Request view Supplier Detail
+fe++
 fe -> be: Request view Supplier Detail
 be++
 be -> db: Query get Supplier information
@@ -15,7 +18,11 @@ db --> be: return result
 db--
 alt Supplier isn't existed/ query fail
 be -->> fe: Return fail message
+fe -->> a: Return fail message
 end
 
 be--> fe: return result
+be--
+fe--> a: return result
+fe--
 @enduml

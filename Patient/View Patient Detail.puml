@@ -3,10 +3,13 @@ header : giangmn
 title: View Patient Detail
 autonumber
 
+actor "Actor" as a
 participant "Web FE" as fe
 participant "Web BE" as be
 participant "Database" as db
 
+a->fe: Request view Patient Detail
+fe++
 fe -> be: Request view Patient Detail
 be++
 be -> db: Query get patient information
@@ -15,7 +18,10 @@ db --> be: return result
 db--
 alt patient isn't existed/ query fail
 be -->> fe: Return fail message
+fe -->> a: Show fail message
 end
-
 be--> fe: return result
+be--
+fe--> a: return result
+fe--
 @enduml

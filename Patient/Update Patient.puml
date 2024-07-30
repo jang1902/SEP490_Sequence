@@ -3,15 +3,19 @@ header : giangmn
 title: Update Patient
 autonumber
 
+actor "Actor" as a
 participant "Web FE" as fe
 participant "Web BE" as be
 participant "Database" as db
 
+a->fe : Request update Patient
+fe++
 fe -> be: Request update Patient
 be++
 be -> be: Validate request
 alt Validate fail
 be -->> fe: Return fail message
+fe -->> a: Show fail message
 end
 
 be -> db: Query get Patient if Patient is existed
@@ -20,10 +24,15 @@ db --> be: return result
 db--
 alt Patient isn't existed
 be -->> fe: Return fail message
+fe -->> a: Show fail message
+
 end
 be->db: update Patient information
 db++
 db--> be: return result
 db--
 be --> fe: return result
+be--
+fe -->> a: return result
+fe--
 @enduml
