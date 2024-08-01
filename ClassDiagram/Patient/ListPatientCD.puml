@@ -3,14 +3,13 @@ interface IPatientRepository
 interface IValidator<T>
 
 class BaseRepository<T, K>
-class BaseEntity<K>
 
 class PatientRepository {
 }
 
 class GetAllPatientUseCase {
-  - IPatientRepository _patientRepository
-  - IValidator<GetAllPatientRequest> _validator
+  - _patientRepository: IPatientRepository
+  - _validator: IValidator<GetAllPatientRequest>
   + ExecuteAsync(GetAllPatientRequest request): Task<PaginationResponse<List<ListPatientDto>>>
 }
 
@@ -19,40 +18,35 @@ class GetAllPatientValidator {
 }
 
 class PatientController {
-  - GetAllPatientUseCase _getAllPatient
+  - _getAllPatient: GetAllPatientUseCase
   + GetAllAsync(GetAllPatientRequest request): Task<IActionResult>
 }
 
 class GetAllPatientRequest {
-  + int Page
-  + int Size = 20
-  + string? Name
-  + string? PhoneNumber
-  + bool OrderDesc = true
-  + string? OrderBy
+  + Page: int
+  + Size: int
+  + Name: string
+  + PhoneNumber: string
+  + OrderDesc: bool
+  + OrderDesc: string
+}
+class ListPatientDto{
++ Id: int
++ Name: string
++ Email: string
++ Phone: string
++ BirthDay: Date
 }
 
-class Patient                {
-  + string? Name
-  + string? Email
-  + string? Password
-  + string? Phone
-  + DateTime? Birthday
-  + bool IsUseGenPassword
-  + virtual ICollection<Schedule> Schedules
-  + virtual ICollection<Record> Records
-}
+
 
 BaseRepository <|-- PatientRepository
-BaseEntity <|-- Patient
 IPatientRepository <|.. PatientRepository
-IPatientRepository ..> GetAllPatientUseCase
+IPatientRepository <.. GetAllPatientUseCase
 IValidator <|.. GetAllPatientValidator
-IValidator ..> GetAllPatientUseCase
+IValidator <.. GetAllPatientUseCase
 GetAllPatientUseCase ..> GetAllPatientRequest
 PatientController ..> GetAllPatientUseCase
 PatientController ..> GetAllPatientRequest
-Patient "1" o-- "many" Schedule
-Patient "1" o-- "many" Record
-
+GetAllPatientUseCase ..> ListPatientDto
 @enduml

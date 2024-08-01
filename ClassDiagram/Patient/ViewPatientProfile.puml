@@ -1,0 +1,33 @@
+@startuml
+interface IPatientRepository
+
+class BaseRepository<T, K>
+
+class PatientRepository {
+}
+
+class ViewPatientProfileUseCase {
+  -  _patientRepository: IPatientRepository
++ ViewProfileAsync(int patientId): Task<ApiResponse<ViewPatientProfileResponse, List<string>>>
+}
+
+
+class PatientController {
+  -  _createPatient: ViewPatientProfileUseCase
+  +  Task<IActionResult>: ViewProfileAsync(int patientId)
+}
+
+class ViewPatientProfileResponse{
++  Name: string
++  Email: string
++  Phone: string
++  BirthDay: DateTime
+}
+BaseRepository <|-- PatientRepository
+IPatientRepository <|.. PatientRepository
+IPatientRepository <.. ViewPatientProfileUseCase
+
+PatientController ..> ViewPatientProfileUseCase
+ViewPatientProfileUseCase ..> ViewPatientProfileResponse
+
+@enduml

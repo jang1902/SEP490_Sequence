@@ -1,0 +1,44 @@
+@startuml
+
+interface IRecordRepository{
+ + GetByIdAsync(int id): Task<Record?>
+}
+interface IScheduleRepository{
++GetByDoctorIdAndPatientId(int doctorId, int patientId): Task<Schedule>
+}
+interface IUnitOfWork
+
+class BaseRepository<T, K>
+
+class RecordRepository {
+ + GetByIdAsync(int id): Task<Record?>
+}
+class ScheduleRepository{
++ GetByDoctorIdAndPatientId(int doctorId, int patientId):Task<Schedule>
+}
+
+class ChangeRecordStatusUseCase {
+  - _scheduleRepository: IScheduleRepository
+  - _unitOfWork: IUnitOfWork
+  - _recordRepository: IRecordRepository
+  +ExecuteAsync(int recordId): Task<ApiResponse<ScheduleDto, List<string>>>
+}
+
+
+class RecordController {
+  - _changeRecordStatusUseCase: ChangeRecordStatusUseCase
+  + ChangeRecordStatus(int recordId): Task<IActionResult>
+}
+
+
+
+BaseRepository <|-- ScheduleRepository
+BaseRepository <|-- RecordRepository
+IRecordRepository <|.. RecordRepository
+IRecordRepository <.. ChangeRecordStatusUseCase
+IScheduleRepository <|.. ScheduleRepository
+IScheduleRepository <.. ChangeRecordStatusUseCase
+IUnitOfWork <.. ChangeRecordStatusUseCase
+RecordController ..> ChangeRecordStatusUseCase
+
+@enduml

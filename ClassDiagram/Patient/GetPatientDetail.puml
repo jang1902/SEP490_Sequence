@@ -1,0 +1,36 @@
+@startuml
+interface IPatientRepository
+
+class BaseRepository<T, K>
+
+class PatientRepository {
+}
+
+class GetPatientDetailUseCase {
+  - _patientRepository: IPatientRepository
++ ExecuteAsync(int patientId): Task<ApiResponse<PatientDetailDto, string>>
+}
+
+
+class PatientController {
+  -  _createPatient: GetPatientDetailUseCase
+  +  Task<IActionResult>: ViewProfileAsync(int patientId)
+}
+
+class PatientDetailDto{
++  Id: int
++  Name: string
++  Email: string
++  Phone: string
++  BirthDay: DateTime
++  Password: string
++  IsUseGenPassword: bool
+}
+BaseRepository <|-- PatientRepository
+IPatientRepository <|.. PatientRepository
+IPatientRepository <.. GetPatientDetailUseCase
+
+PatientController ..> GetPatientDetailUseCase
+GetPatientDetailUseCase ..> PatientDetailDto
+
+@enduml

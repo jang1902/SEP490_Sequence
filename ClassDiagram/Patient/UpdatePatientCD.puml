@@ -1,0 +1,45 @@
+@startuml
+interface IPatientRepository
+interface IValidator<T>
+interface IUnitOfWork
+
+class BaseRepository<T, K>
+
+class PatientRepository {
+}
+
+class UpdatePatientUseCase {
+  -  _patientRepository: IPatientRepository
+  -  _unitOfWork: IUnitOfWork
+  -  _validator: IValidator<UpdatePatientRequest>
+}
+
+class UpdatePatientValidator {
+  + UpdatePatientValidator()
+}
+
+class PatientController {
+  -  _createPatient: CreatePatientUseCase
+  + CreateAsync(UpdatePatientRequest request): Task<IActionResult>
+}
+
+class UpdatePatientRequest {
+  +  Name: string
+  +  Email: string
+  +  Phone: string
+  +  Birthday: DateTime
+}
+
+
+BaseRepository <|-- PatientRepository
+IPatientRepository <|.. PatientRepository
+IPatientRepository <.. UpdatePatientUseCase
+IUnitOfWork <.. UpdatePatientUseCase
+IValidator <|.. UpdatePatientValidator
+IValidator <.. UpdatePatientUseCase
+
+UpdatePatientUseCase ..> UpdatePatientRequest
+PatientController ..> UpdatePatientUseCase
+PatientController ..> UpdatePatientRequest
+
+@enduml
