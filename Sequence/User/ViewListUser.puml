@@ -1,0 +1,24 @@
+@startuml
+header : giangmn
+title: View User List
+autonumber
+
+actor "Actor" as a
+participant "Web FE" as fe
+participant "Web BE" as be
+database "Database" as db
+
+a-> fe: Request get list User
+fe++
+fe -> be: Request get list User
+be++
+be -> db: Query get list User
+db++
+db --> be: return result
+db--
+be --> fe: return result
+be--
+fe-->a: return result
+fe--
+
+@enduml

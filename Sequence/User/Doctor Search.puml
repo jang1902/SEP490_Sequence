@@ -1,0 +1,27 @@
+@startuml
+header : giangmn
+title: Doctor Search
+autonumber
+
+actor "Actor" as a
+participant "Web FE" as fe
+participant "Web BE" as be
+participant "Database" as db
+
+a->fe: Request search Doctor
+fe++
+fe -> be: Request search Doctor
+be++
+be -> db: Query search Doctor information
+db++
+db --> be: return result
+db--
+alt query fail
+be -->> fe: Return fail message
+fe -->> a: Show fail message
+end
+be--> fe: return result
+be--
+fe--> a: return result
+fe--
+@enduml

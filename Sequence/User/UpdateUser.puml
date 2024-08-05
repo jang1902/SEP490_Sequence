@@ -1,0 +1,38 @@
+@startuml
+header : giangmn
+title: Update User
+autonumber
+
+actor "Actor" as a
+participant "Web FE" as fe
+participant "Web BE" as be
+participant "Database" as db
+
+a->fe : Request update User
+fe++
+fe -> be: Request update User
+be++
+be -> be: Validate request
+alt Validate fail
+be -->> fe: Return fail message
+fe -->> a: Show fail message
+end
+
+be -> db: Query get User if User is existed
+db++
+db --> be: return result
+db--
+alt User isn't existed
+be -->> fe: Return fail message
+fe -->> a: Show fail message
+
+end
+be->db: update User information
+db++
+db--> be: return result
+db--
+be --> fe: return result
+be--
+fe -->> a: return result
+fe--
+@enduml

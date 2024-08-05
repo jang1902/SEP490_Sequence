@@ -1,0 +1,27 @@
+@startuml
+header : giangmn
+title: Get User Detail
+autonumber
+
+actor "Actor" as a
+participant "Web FE" as fe
+participant "Web BE" as be
+participant "Database" as db
+
+a->fe: Request get User detail
+fe++
+fe -> be: Request get User detail
+be++
+be -> db: Query get User detail
+db++
+db --> be: return result
+db--
+alt User isn't existed/ query fail
+be -->> fe: Return fail message
+fe -->> a: Show fail message
+end
+be--> fe: return result
+be--
+fe--> a: return result
+fe--
+@enduml

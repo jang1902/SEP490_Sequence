@@ -1,0 +1,38 @@
+@startuml
+header : giangmn
+title: Edit Profile
+autonumber
+
+actor "Actor" as a
+participant "Web FE" as fe
+participant "Web BE" as be
+database "Database" as db
+
+a-> fe: Request edit Profile
+fe ++
+fe -> be: Request edit Profile
+be++
+be -> be: Validate request
+alt Validate fail
+be -->> fe: Return fail message
+fe -->> a: Return fail message
+
+end
+
+be -> db: Query get User if User is existed
+db++
+db --> be: return result
+db--
+alt User isn't existed/ duplicate information
+be -->> fe: Return fail message
+fe -->> a: Return fail message
+end
+be->db: update User information
+db++
+db--> be: return result
+db--
+be --> fe: return result
+be--
+fe--> a: return result
+fe--
+@enduml

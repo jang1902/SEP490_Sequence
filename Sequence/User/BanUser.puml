@@ -1,0 +1,31 @@
+@startuml
+header : giangmn
+title: Ban User
+autonumber
+
+actor "Actor" as a
+participant "Web FE" as fe
+participant "Web BE" as be
+participant "Database" as db
+
+a->fe: Request ban User
+fe++
+fe -> be: Request ban User
+be++
+be -> db: Query get User information
+db++
+db --> be: return result
+db--
+alt patient isn't existed/ query fail
+be -->> fe: Return fail message
+fe -->> a: Show fail message
+end
+be->db: save ban information
+db++
+db-> be: return result
+db--
+be--> fe: return result
+be--
+fe--> a: return result
+fe--
+@enduml
