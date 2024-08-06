@@ -1,0 +1,54 @@
+@startuml
+interface ISupplierRepository{
+GetAllAsync(GetAllSupplierRequest request): List<ListSupplierDto>
+}
+interface IValidator<T>
+
+class SupplierRepository {
+GetAllAsync(GetAllSupplierRequest request):List<ListSupplierDto>
+}
+
+class GetAllSupplierUseCase {
+  - _supplierRepository: ISupplierRepository
+  - _validator: IValidator<GetAllSupplierRequest>
+  + ExecuteAsync(GetAllSupplierRequest request): Task<PaginationResponse<List<ListSupplierDto>>>
+}
+
+class GetAllSupplierValidator {
+  + GetAllSupplierValidator()
+}
+
+class PatientController {
+  - _getAllPatient: GetAllSupplierUseCase
+  + GetAllAsync(GetAllSupplierRequest request): Task<IActionResult>
+}
+
+class GetAllSupplierRequest {
+  + Page: int
+  + Size: int
+  + Name: string
+  + PhoneNumber: string
+  + OrderDesc: bool
+  + OrderDesc: string
+}
+class ListSupplierDto{
++ Id: int
++ Name: string
++ Email: string
++ Address: string
++ PhoneNumber: string
+}
+
+
+
+ISupplierRepository <|.. SupplierRepository
+ISupplierRepository <.. GetAllSupplierUseCase
+IValidator <|.. GetAllSupplierValidator
+IValidator <.. GetAllSupplierUseCase
+
+
+GetAllSupplierUseCase ..> GetAllSupplierRequest
+PatientController ..> GetAllSupplierUseCase
+PatientController ..> GetAllSupplierRequest
+GetAllSupplierUseCase ..> ListSupplierDto
+@enduml

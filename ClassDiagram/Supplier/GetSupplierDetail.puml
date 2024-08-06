@@ -1,0 +1,37 @@
+@startuml
+interface ISupplierRepository{
+GetSupplierDetailAsync(int supplierId): SupplierDetailDto
+}
+
+class SupplierRepository {
+GetSupplierDetailAsync(int supplierId): SupplierDetailDto
+}
+
+class GetSupplierDetailUseCase {
+  - _supplierRepository: ISupplierRepository
+  + ExecuteAsync(): Task<PaginationResponse<List<SupplierDetailDto>>>
+}
+
+
+class PatientController {
+  - _getSupplierDetail: GetSupplierDetailUseCase
+  + GetSupplierDetailAsync(int supplierId): Task<IActionResult>
+}
+
+class SupplierDetailDto{
++ Name: string
++ Email: string
++ Address: string
++ PhoneNumber: string
+}
+
+
+
+ISupplierRepository <|.. SupplierRepository
+ISupplierRepository <.. GetSupplierDetailUseCase
+
+
+
+PatientController ..> GetSupplierDetailUseCase
+GetSupplierDetailUseCase ..> SupplierDetailDto
+@enduml

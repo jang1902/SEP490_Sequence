@@ -1,0 +1,46 @@
+@startuml
+interface ISupplierRepository{
++GetSupplierByEmailAsync(string email): Supplier
++GetSupplierByPhoneAsync(string phone): Supplier
+}
+interface IValidator<T>
+
+class SupplierRepository {
++GetSupplierByEmailAsync(string email): Supplier
++GetSupplierByPhoneAsync(string phone): Supplier
+}
+
+class UpdateSupplierUseCase {
+  - _supplierRepository: ISupplierRepository
+  - _validator: IValidator<UpdateSupplierRequest>
+  - _unitOfWork: IUnitOfWork
+  + UpdateUserAsync(UpdateSupplierRequest request, int id): Task<ApiResponse<string, List<string>>>
+}
+
+class UpdateSupplierValidator {
+  + UpdateSupplierValidator()
+}
+
+class PatientController {
+  - _updateSupplier: UpdateSupplierUseCase
+  + UpdateSupplier(UpdateSupplierRequest request, int supplierId): Task<IActionResult>
+}
+
+class UpdateSupplierRequest {
+  + Name: string
+  + Email: string
+  + Address: string
+  + PhoneNumber: string
+}
+
+
+ISupplierRepository <|.. SupplierRepository
+ISupplierRepository <.. UpdateSupplierUseCase
+IValidator <|.. UpdateSupplierValidator
+IValidator <.. UpdateSupplierUseCase
+
+
+UpdateSupplierUseCase ..> UpdateSupplierRequest
+PatientController ..> UpdateSupplierUseCase
+PatientController ..> UpdateSupplierRequest
+@enduml
