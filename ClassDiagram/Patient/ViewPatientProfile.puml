@@ -1,9 +1,10 @@
 @startuml
-interface IPatientRepository
-
-class BaseRepository<T, K>
+interface IPatientRepository{
+GetPatientByIdAsync(int patientId): Patient
+}
 
 class PatientRepository {
+GetPatientByIdAsync(int patientId): Patient
 }
 
 class ViewPatientProfileUseCase {
@@ -13,7 +14,7 @@ class ViewPatientProfileUseCase {
 
 
 class PatientController {
-  -  _createPatient: ViewPatientProfileUseCase
+  -  _viewProfile: ViewPatientProfileUseCase
   +  Task<IActionResult>: ViewProfileAsync(int patientId)
 }
 
@@ -23,7 +24,6 @@ class ViewPatientProfileResponse{
 +  Phone: string
 +  BirthDay: DateTime
 }
-BaseRepository <|-- PatientRepository
 IPatientRepository <|.. PatientRepository
 IPatientRepository <.. ViewPatientProfileUseCase
 

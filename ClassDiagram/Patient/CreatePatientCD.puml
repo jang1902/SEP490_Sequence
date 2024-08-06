@@ -1,11 +1,12 @@
 @startuml
-interface IPatientRepository
+interface IPatientRepository{
++FindPatientByPhoneAndMailAsync(string phone, string email): List<Patient>
+}
 interface IValidator<T>
 interface IUnitOfWork
 
-class BaseRepository<T, K>
-
 class PatientRepository {
++FindPatientByPhoneAndMailAsync(string phone, string email): List<Patient>
 }
 
 class CreatePatientUseCase {
@@ -14,6 +15,7 @@ class CreatePatientUseCase {
   - _validator: IValidator<CreatePatientRequest>
   - _authService: AuthService
   - _emailService: EmailService
+  +ExecuteAsync(CreatePatientRequest request): ApiResponse<Patient, List<string>>
 }
 
 class CreatePatientValidator {
@@ -41,7 +43,6 @@ class EmailService {
   + SendEmailAsync(string toEmail, string subject, string body): Task
 }
 
-BaseRepository <|-- PatientRepository
 IPatientRepository <|.. PatientRepository
 IPatientRepository <.. CreatePatientUseCase
 IUnitOfWork <.. CreatePatientUseCase

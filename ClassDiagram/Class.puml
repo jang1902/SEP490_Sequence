@@ -1,36 +1,12 @@
 @startuml
-interface IPatientRepository
-interface IValidator<T>
-
-class BaseRepository<T, K>
-class BaseEntity<K>
-
-class PatientRepository {
+class BaseEntity<TId>{
++ Id: TId
++ CreateAt: DateTime
++ UpdateAt: DateTime
++ CreateBy: int
++ UpdateBy: int
 }
 
-class GetAllPatientUseCase {
-  - IPatientRepository _patientRepository
-  - IValidator<GetAllPatientRequest> _validator
-  + ExecuteAsync(GetAllPatientRequest request): Task<PaginationResponse<List<ListPatientDto>>>
-}
-
-class GetAllPatientValidator {
-  + GetAllPatientValidator()
-}
-
-class PatientController {
-  - GetAllPatientUseCase _getAllPatient
-  + GetAllAsync(GetAllPatientRequest request): Task<IActionResult>
-}
-
-class GetAllPatientRequest {
-  + int Page
-  + int Size = 20
-  + string? Name
-  + string? PhoneNumber
-  + bool OrderDesc = true
-  + string? OrderBy
-}
 
 class Patient                {
   + string? Name
@@ -42,17 +18,16 @@ class Patient                {
   + virtual ICollection<Schedule> Schedules
   + virtual ICollection<Record> Records
 }
-
-BaseRepository <|-- PatientRepository
 BaseEntity <|-- Patient
-IPatientRepository <|.. PatientRepository
-IPatientRepository ..> GetAllPatientUseCase
-IValidator <|.. GetAllPatientValidator
-IValidator ..> GetAllPatientUseCase
-GetAllPatientUseCase ..> GetAllPatientRequest
-PatientController ..> GetAllPatientUseCase
-PatientController ..> GetAllPatientRequest
+
 Patient "1" o-- "many" Schedule
 Patient "1" o-- "many" Record
 
+enum StatusScheduleEnum
+{
+    Pending
+    Confirmed
+    Done
+    Cancel
+}
 @enduml

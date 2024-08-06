@@ -1,17 +1,21 @@
 @startuml
-interface IPatientRepository
+interface IPatientRepository{
++GetPatientByIdAsync(int patientId): Patient
++FindPatientByPhoneAndMailAsync(string phone, string email): List<Patient>
+}
 interface IValidator<T>
 interface IUnitOfWork
 
-class BaseRepository<T, K>
-
 class PatientRepository {
++GetPatientByIdAsync(int patientId): Patient
++FindPatientByPhoneAndMailAsync(string phone, string email): List<Patient>
 }
 
 class UpdatePatientUseCase {
   -  _patientRepository: IPatientRepository
   -  _unitOfWork: IUnitOfWork
   -  _validator: IValidator<UpdatePatientRequest>
+  +UpdatePatientAsync(UpdatePatientRequest request, int patientId)
 }
 
 class UpdatePatientValidator {
@@ -30,8 +34,6 @@ class UpdatePatientRequest {
   +  Birthday: DateTime
 }
 
-
-BaseRepository <|-- PatientRepository
 IPatientRepository <|.. PatientRepository
 IPatientRepository <.. UpdatePatientUseCase
 IUnitOfWork <.. UpdatePatientUseCase

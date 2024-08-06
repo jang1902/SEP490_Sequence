@@ -3,8 +3,6 @@
 interface IRecordRepository{
  + GetByDoctorIdPerDay(doctorId): Task<List<RecordListDoctorDto>>
 }
-class BaseRepository<T, K>
-
 class RecordRepository {
  + GetByDoctorIdPerDay(doctorId): Task<List<RecordListDoctorDto>>
 }
@@ -16,13 +14,24 @@ class GetListRecordByDoctor {
 
 
 class RecordController {
-  - _changeRecordStatusUseCase: ChangeRecordStatusUseCase
-  + ChangeRecordStatus(int recordId): Task<IActionResult>
+  - _getListRecordByDoctor: GetListRecordByDoctor
+  +  GetListRecordByDoctor(): Task<IActionResult>
 }
 
+class RecordListDoctorDto{
++ Id: int
++ PatientName: string
++ DoctorName: string
++ ExportId: int
++ Diagnostic: string
++ Reason: string
++ Status: RecordStatusEnum
++ StartAt: DateTime
++ EndAt: DateTime
++ IsReVisit: bool
+}
 
-
-BaseRepository <|-- RecordRepository
+GetListRecordByDoctor ..> RecordListDoctorDto
 IRecordRepository <|.. RecordRepository
 IRecordRepository <.. GetListRecordByDoctor
 RecordController ..> GetListRecordByDoctor

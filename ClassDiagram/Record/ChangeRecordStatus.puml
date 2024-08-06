@@ -1,17 +1,25 @@
 @startuml
 
 interface IRecordRepository{
- + GetByIdAsync(int id): Task<Record?>
+ + GetByIdAsync(int id): Task<Record>
 }
 interface IScheduleRepository{
 +GetByDoctorIdAndPatientId(int doctorId, int patientId): Task<Schedule>
 }
 interface IUnitOfWork
-
-class BaseRepository<T, K>
+class ScheduleDto{
++StartAt: DateTime
++EndAt: DateTime
++PatientId: int
++DoctorId: int
++StatusScheduleEnum: Status
++IsPatientConfirm: Boolean
++IsAvailable: Boolean
++Description: string
+}
 
 class RecordRepository {
- + GetByIdAsync(int id): Task<Record?>
+ + GetByIdAsync(int id): Task<Record>
 }
 class ScheduleRepository{
 + GetByDoctorIdAndPatientId(int doctorId, int patientId):Task<Schedule>
@@ -22,6 +30,7 @@ class ChangeRecordStatusUseCase {
   - _unitOfWork: IUnitOfWork
   - _recordRepository: IRecordRepository
   +ExecuteAsync(int recordId): Task<ApiResponse<ScheduleDto, List<string>>>
+  +RoundToNearestQuarterHour(DateTime dt): DateTime
 }
 
 
@@ -30,10 +39,7 @@ class RecordController {
   + ChangeRecordStatus(int recordId): Task<IActionResult>
 }
 
-
-
-BaseRepository <|-- ScheduleRepository
-BaseRepository <|-- RecordRepository
+ChangeRecordStatusUseCase ..> ScheduleDto
 IRecordRepository <|.. RecordRepository
 IRecordRepository <.. ChangeRecordStatusUseCase
 IScheduleRepository <|.. ScheduleRepository

@@ -1,9 +1,10 @@
 @startuml
-interface IPatientRepository
-
-class BaseRepository<T, K>
+interface IPatientRepository{
++GetPatientByIdAsync(int patientId): Patient
+}
 
 class PatientRepository {
++GetPatientByIdAsync(int patientId): Patient
 }
 
 class GetPatientDetailUseCase {
@@ -26,11 +27,11 @@ class PatientDetailDto{
 +  Password: string
 +  IsUseGenPassword: bool
 }
-BaseRepository <|-- PatientRepository
 IPatientRepository <|.. PatientRepository
 IPatientRepository <.. GetPatientDetailUseCase
 
 PatientController ..> GetPatientDetailUseCase
+
 GetPatientDetailUseCase ..> PatientDetailDto
 
 @enduml
