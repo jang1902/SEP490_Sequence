@@ -1,0 +1,37 @@
+@startuml
+interface IUserRepository{
++GetUserByIdAsync(int UserId): User
+}
+class UserRepository {
++GetUserByIdAsync(int UserId): User
+}
+
+class DoctorSearchUseCase {
+  - _userRepository: IUserRepository
+  +ExecuteAsync(DoctorSearchRequest request, bool fromPatient): IEnumerable<DoctorSearchDto>
+}
+
+class UserController {
+  - _doctorSearchUseCase: DoctorSearchUseCase
+  + SearchDoctor(DoctorSearchRequest request): Task<IActionResult>
+}
+class ViewListUserRequest {
+  + Size: int
+  +Query: string
+}
+class DoctorSearchDto{
++Id: int
++Name: string
++ Email: string
++ Phone: string
+}
+
+UserController ..> DoctorSearchUseCase
+DoctorSearchUseCase ..> DoctorSearchDto
+
+DoctorSearchUseCase ..> ViewListUserRequest
+UserController ..> ViewListUserRequest
+
+IUserRepository ..|> UserRepository
+DoctorSearchUseCase ..> IUserRepository
+@enduml

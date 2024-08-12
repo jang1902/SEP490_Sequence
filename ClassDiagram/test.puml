@@ -1,0 +1,29 @@
+@startuml
+class Patient {
+}
+
+class PatientAgeDistributionDto {
+    +string AgeGroup
+    +int PatientCount
+}
+
+class PatientFrequency {
+    +int Id
+    +string PatientName
+    +string PatientEmail
+    +string PatientPhone
+    +int Count
+}
+
+class NewPatientsAndAgeDistributionDto {
+    +DateTime Time
+    +int NewPatientsCount
+    +List<PatientAgeDistributionDto> AgeDistribution
+    +List<PatientFrequency> PatientFrequencies
+}
+
+Patient *-- PatientAgeDistributionDto
+Patient *-- PatientFrequency
+Patient *-- NewPatientsAndAgeDistributionDto
+
+@enduml

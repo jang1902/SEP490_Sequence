@@ -41,7 +41,7 @@ class RecordController {
 
 ChangeRecordStatusUseCase ..> ScheduleDto
 IRecordRepository <|.. RecordRepository
-IRecordRepository <.. ChangeRecordStatusUseCase
+ChangeRecordStatusUseCase..>IRecordRepository
 IScheduleRepository <|.. ScheduleRepository
 IScheduleRepository <.. ChangeRecordStatusUseCase
 IUnitOfWork <.. ChangeRecordStatusUseCase

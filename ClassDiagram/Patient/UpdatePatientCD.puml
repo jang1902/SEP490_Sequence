@@ -35,7 +35,8 @@ class UpdatePatientRequest {
 }
 
 IPatientRepository <|.. PatientRepository
-IPatientRepository <.. UpdatePatientUseCase
+UpdatePatientUseCase ..> IPatientRepository
+
 IUnitOfWork <.. UpdatePatientUseCase
 IValidator <|.. UpdatePatientValidator
 IValidator <.. UpdatePatientUseCase

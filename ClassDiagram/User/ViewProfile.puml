@@ -1,0 +1,33 @@
+@startuml
+interface IUserRepository{
+GetUserByIdAsync(int UserId): User
+}
+
+class UserRepository {
+GetUserByIdAsync(int UserId): User
+}
+
+class ViewProfileUseCase {
+  -  _userRepository: IUserRepository
++ ViewProfileAsync(int UserId): Task<(List<string>, ViewProfileRequest)>
+}
+
+
+class UserController {
+  -  _viewProfile: ViewProfileUseCase
+  +  Task<IActionResult>: ViewProfile()
+}
+
+class ViewUserProfileResponse{
++  Name: string
++  Email: string
++  Phone: string
++  BirthDay: DateTime
+}
+IUserRepository <|.. UserRepository
+IUserRepository <.. ViewProfileUseCase
+
+UserController ..> ViewProfileUseCase
+ViewProfileUseCase ..> ViewUserProfileResponse
+
+@enduml

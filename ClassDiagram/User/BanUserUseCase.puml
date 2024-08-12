@@ -1,0 +1,28 @@
+@startuml
+interface IUnitOfWork
+
+interface IUserRepository{
+GetByIdAsync(int id): User
+}
+class UserRepository {
+GetByIdAsync(int id): User
+}
+
+class BanUserUseCase {
+  - _userRepository: IUserRepository
+    - _unitOfWork: IUnitOfWork
+  +ExecuteAsync(int userId, StatusEnum request): ApiResponse<string, List<string>>
+}
+
+class UserController {
+  - _banUser: BanUser
+  + BanUserAsync([FromQuery] int userId, StatusEnum status): Task<IActionResult>
+}
+
+UserController ..> BanUserUseCase
+
+IUnitOfWork <.. BanUserUseCase
+
+IUserRepository ..|> UserRepository
+BanUserUseCase ..> IUserRepository
+@enduml

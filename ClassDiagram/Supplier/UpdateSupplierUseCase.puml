@@ -35,7 +35,7 @@ class UpdateSupplierRequest {
 
 
 ISupplierRepository <|.. SupplierRepository
-ISupplierRepository <.. UpdateSupplierUseCase
+UpdateSupplierUseCase ..> ISupplierRepository
 IValidator <|.. UpdateSupplierValidator
 IValidator <.. UpdateSupplierUseCase
 

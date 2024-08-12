@@ -1,0 +1,75 @@
+@startuml
+interface IUserRepository{
++FindUserByPhoneAsync(string phone): User
++FindUserByEmailAsync(string email): User
++CountUserRoleAdmin(): int
++
+}
+interface IValidator<T>
+interface IUnitOfWork
+
+interface IRoleRepository{
++GetRolesAsync(List<int> roleIds): ICollection<Role>
+}
+
+class RoleRepository{
++GetRolesAsync(List<int> roleIds): ICollection<Role>
+}
+
+class UserRepository {
++FindUserByPhoneAndMailAsync(string phone, string email): List<User>
+}
+
+class CreateUserUseCase {
+  - _userRepository:IUserRepository
+  - _unitOfWork: IUnitOfWork
+  -_roleRepository: IRoleRepository
+  - _validator: IValidator<CreateUserRequest>
+  - _authService: AuthService
+  - _emailService: EmailService
+  +ExecuteAsync(CreateUserRequest request): Task<(List<string>, string)>
+}
+
+class CreateUserValidator {
+  + CreateUserValidator()
+}
+
+class UserController {
+  -  _createUser: CreateUserUseCase
+  + CreateUser(CreateUserRequest request): Task<IActionResult>
+}
+
+class CreateUserRequest {
+  + Name: string
+  + Email: string
+  + Phone: string
+  + Birthday: DateTime
+  + Salary: double
+  + RoleIds: List<int>
+}
+
+
+class AuthService {
+  + GenerateRandomPassword(): string
+}
+
+class EmailService {
+  + SendEmailAsync(string toEmail, string subject, string body): Task
+}
+
+IUserRepository <|.. UserRepository
+CreateUserUseCase ..> IUserRepository
+
+IRoleRepository <|.. RoleRepository
+CreateUserUseCase ..> IRoleRepository
+IUnitOfWork <.. CreateUserUseCase
+IValidator <|.. CreateUserValidator
+IValidator <.. CreateUserUseCase
+
+CreateUserUseCase ..> CreateUserRequest
+CreateUserUseCase ..> AuthService
+CreateUserUseCase ..> EmailService
+UserController ..> CreateUserUseCase
+UserController ..> CreateUserRequest
+
+@enduml

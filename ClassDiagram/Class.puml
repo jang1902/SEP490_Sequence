@@ -1,27 +1,19 @@
 @startuml
-class BaseEntity<TId>{
-+ Id: TId
-+ CreateAt: DateTime
-+ UpdateAt: DateTime
-+ CreateBy: int
-+ UpdateBy: int
+
+
+class Patient {
+  + Name string?
+  + Email string?
+  + Password string?
+  + Phone string?
+  + Birthday DateTime?
+  + IsUseGenPassword bool
+  + Schedules ICollection<Schedule>
+  + Records ICollection<Record>
 }
 
 
-class Patient                {
-  + string? Name
-  + string? Email
-  + string? Password
-  + string? Phone
-  + DateTime? Birthday
-  + bool IsUseGenPassword
-  + virtual ICollection<Schedule> Schedules
-  + virtual ICollection<Record> Records
-}
-BaseEntity <|-- Patient
 
-Patient "1" o-- "many" Schedule
-Patient "1" o-- "many" Record
 
 enum StatusScheduleEnum
 {
@@ -30,4 +22,35 @@ enum StatusScheduleEnum
     Done
     Cancel
 }
+
+abstract class  BaseEntity<TId>{
++ Id: TId
++ CreateAt: DateTime
++ UpdateAt: DateTime
++ CreateBy: int
++ UpdateBy: int
+}
+class User                {
+  + Name string
+    + Email string
+    + Password string
+    + Phone string
+    + Birthday DateTime
+    +Salary double
+    +Status StatusEnum
+    +AssistantId int
+    + IsUseGenPassword bool
+    + UserRoles  ICollection<UserRole>
+    + Schedules ICollection<Schedule>
+    +Records ICollection<Record>
+    +Applications ICollection<Applications>
+}
+
+User "1" o-- "many" Schedule
+User "1" o-- "many" Record
+User "1" o-- "many" UserRole
+User "1" o-- "many" Applications
+
+BaseEntity <|-- User
+
 @enduml

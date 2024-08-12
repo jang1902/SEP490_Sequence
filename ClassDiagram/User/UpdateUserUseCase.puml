@@ -1,0 +1,59 @@
+@startuml
+interface IUserRepository{
++GetUserByIdAsync(int UserId): User
+}
+interface IValidator<T>
+interface IUnitOfWork
+
+class UserRepository {
++GetUserByIdAsync(int UserId): User
+}
+
+interface IRoleRepository{
++GetRolesAsync(List<int> roleIds): ICollection<Role>
+}
+
+class RoleRepository{
++GetRolesAsync(List<int> roleIds): ICollection<Role>
+}
+
+class UpdateUserUseCase {
+  -  _userRepository: IUserRepository
+  -  _unitOfWork: IUnitOfWork
+  -  _validator: IValidator<UpdateUserRequest>
+  - _roleRepository: IRoleRepository
+  +UpdateUserAsync(UpdateUserRequest request, int userId, int updateBy): List<string>, string)
+}
+
+class UpdateUserValidator {
+  + UpdateUserValidator()
+}
+
+class UserController {
+  -  _updateUser: UpdateUserUseCase
+  +  UpdateUser(UpdateUserRequest request, int userId): Task<IActionResult>
+}
+
+class UpdateUserRequest {
+  +  Phone: string
+  +Salary: double
+  +Status: StatusEnum
+  +AssistantId: int
+  +RoleIds: List<int>
+ }
+
+IUserRepository <|.. UserRepository
+UpdateUserUseCase ..> IUserRepository
+
+IRoleRepository <|.. RoleRepository
+UpdateUserUseCase ..> IRoleRepository
+
+IUnitOfWork <.. UpdateUserUseCase
+IValidator <|.. UpdateUserValidator
+IValidator <.. UpdateUserUseCase
+
+UpdateUserUseCase ..> UpdateUserRequest
+UserController ..> UpdateUserUseCase
+UserController ..> UpdateUserRequest
+
+@enduml

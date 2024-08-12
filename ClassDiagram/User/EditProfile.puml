@@ -1,0 +1,50 @@
+@startuml
+interface IUserRepository{
++GetUserByIdAsync(int UserId): User
++FindUserByPhoneAsync(string phone): User
+}
+interface IValidator<T>
+interface IUnitOfWork
+
+class UserRepository {
++GetUserByIdAsync(int UserId): User
++FindUserByPhoneAsync(string phone): User
+}
+
+
+class EditProfileUseCase {
+  -  _userRepository: IUserRepository
+  -  _unitOfWork: IUnitOfWork
+  -  _validator: IValidator<EditProfileRequest>
+  - _roleRepository: IRoleRepository
+  +EditProfileAsync(EditProfileRequest request, int userId): Task<(List<string>, string)>
+}
+
+class UpdateUserValidator {
+  + UpdateUserValidator()
+}
+
+class UserController {
+  -  _editUser: EditProfileUseCase
+  +  EditProfile(EditProfileRequest request): Task<IActionResult>
+}
+
+class EditProfileRequest {
++Name: string
++Phone: string
++BirthDay: DateTime
+ }
+
+IUserRepository <|.. UserRepository
+EditProfileUseCase ..> IUserRepository
+
+
+IUnitOfWork <.. EditProfileUseCase
+IValidator <|.. UpdateUserValidator
+IValidator <.. EditProfileUseCase
+
+EditProfileUseCase ..> EditProfileRequest
+UserController ..> EditProfileUseCase
+UserController ..> EditProfileRequest
+
+@enduml
