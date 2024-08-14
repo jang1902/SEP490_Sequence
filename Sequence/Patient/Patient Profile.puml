@@ -12,7 +12,7 @@ a->fe: Request view Patient profile
 fe++
 fe -> be: Request view Patient profile
 be++
-be -> db: Query get patient information
+be -> db:  _patientRepository.GetPatientByIdAsync()
 db++
 db --> be: return result
 db--

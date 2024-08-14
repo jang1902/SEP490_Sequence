@@ -18,7 +18,7 @@ be -->> fe: Return fail message
 fe -->> a: Return fail message
 end
 
-be -> db: Query get all patient list
+be -> db: _patientRepository.GetAllAsync()
 db++
 db --> be: return result
 db--

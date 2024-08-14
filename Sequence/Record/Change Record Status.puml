@@ -6,13 +6,13 @@ autonumber
 actor "Actor" as a
 participant "Web FE" as fe
 participant "Web BE" as be
-participant "Database" as db
+database "Database" as db
 
 a->fe: Request Change Record Status
 fe++
 fe -> be: Request Change Record Status
 be++
-be -> db: Query get Record
+be -> db: _recordRepository.GetByIdAsync()
 db++
 db --> be: return result
 db--

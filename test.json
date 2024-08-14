@@ -1,0 +1,133 @@
+
+
+{
+  "status": {
+    "code": "00",
+    "message": "Thành công.",
+    "responseTime": "2024-08-12T02:57:37.018Z",
+    "displayMessage": "Thành công."
+  },
+  "data": [
+    {
+      "sourceName": "Template manager",
+      "scopes": [
+        "DELETE",
+        "POST",
+        "GET",
+        "PUT"
+      ],
+      "uri": [
+        "/template"
+      ]
+    },
+    {
+      "sourceName": "Approve merchant",
+      "scopes": [
+        "DELETE",
+        "POST",
+        "GET",
+        "PUT"
+      ],
+      "uri": [
+        "/approve-merchant"
+      ]
+    },
+    {
+      "sourceName": "Default Resource",
+      "scopes": [
+        "DELETE",
+        "POST",
+        "GET",
+        "PUT"
+      ],
+      "uri": [
+        "/attribute-manager",
+        "/*"
+      ]
+    },
+    {
+      "sourceName": "Partner manager",
+      "scopes": [
+        "DELETE",
+        "POST",
+        "GET",
+        "PUT"
+      ],
+      "uri": [
+        "/partner-manager"
+      ]
+    },
+    {
+      "sourceName": "Attribute manager",
+      "scopes": [
+        "DELETE",
+        "POST",
+        "GET",
+        "PUT"
+      ],
+      "uri": [
+        "/attribute-manager"
+      ]
+    },
+    {
+      "sourceName": "ParticipantEndpoints",
+      "scopes": [
+        "DELETE",
+        "POST",
+        "GET",
+        "PUT"
+      ],
+      "uri": [
+        "/participant/*"
+      ]
+    }
+  ]
+}
+
+{
+  "status": {
+    "code": "00",
+    "message": "Thành công.",
+    "responseTime": "2024-08-12T02:58:32.646Z",
+    "displayMessage": "Thành công."
+  },
+  "data": [
+    {
+      "sourceName": "List-vds-service",
+      "scopes": [
+        "DELETE",
+        "POST",
+        "GET",
+        "PUT"
+      ],
+      "uri": [
+        "/list-vds-service"
+      ]
+    },
+    {
+      "sourceName": "Default Resource",
+      "scopes": [
+        "DELETE",
+        "POST",
+        "GET",
+        "PUT"
+      ],
+      "uri": [
+        "/attribute-manager",
+        "/*"
+      ]
+    },
+    {
+      "sourceName": "ParticipantEndpoints",
+      "scopes": [
+        "DELETE",
+        "POST",
+        "GET",
+        "PUT"
+      ],
+      "uri": [
+        "/participant/*"
+      ]
+    }
+  ]
+}

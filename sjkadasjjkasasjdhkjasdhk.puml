@@ -1,0 +1,57 @@
+@startuml
+
+skinparam shadowing false
+skinparam responseMessageBelowArrow false
+skinparam DefaultFontColor #223
+skinparam TitleFontSize 18
+skinparam NoteBorderColor #teal
+skinparam NoteBackgroundColor #powderblue
+skinparam NoteFontColor #222
+
+skinparam sequence {
+    ParticipantBorderThickness 1
+    ParticipantBorderColor #teal
+    ParticipantBackgroundColor #teal
+    ParticipantFontColor #white
+    ParticipantFontSize 10
+    ParticipantFontStyle bold
+
+LifeLineBorderColor #teal
+LifeLineBackgroundColor #aliceblue
+
+ArrowColor #teal
+ActorBorderColor #teal
+
+GroupBorderThickness 1
+GroupBorderColor #teal
+GroupHeaderFontColor #white
+GroupBackgroundColor #teal
+GroupFontColor #teal
+}
+header : Xem danh sách dịch vụ
+title: Xem danh sách dịch vụ
+autonumber
+
+participant "Web FE" as fe
+participant "Web BE" as be
+participant "Database" as db
+
+fe -> be: Yêu cầu xem danh sách dịch vụ
+be++
+be -> be: Validate dữ liệu đầu vào
+alt Validate thất bại
+be -->> fe: Trả về lỗi
+end
+
+be -> db: Thực hiện truy vấn lấy danh sách dịch v
+db++
+db --> be: return result
+db--
+alt Thất bại
+be--> fe: Trả về lỗi
+end
+be->be: filter kết quả
+be++
+be--
+be --> fe: return result
+@enduml

@@ -13,13 +13,13 @@ a->fe : Request create Patient
 fe++
 fe -> be: Request create Patient
 be++
-be -> be: Validate request
+be -> be: _validator.ValidateAndThrow()
 alt Validate fail
 be -->> fe: Return fail message
 fe-->> a: Show fail message
 end
 
-be -> db: insert new patient
+be -> db: _patientRepository.Add();
 db++
 db --> be: return result
 db--
@@ -31,7 +31,7 @@ end
 alt Created Patient has Email
 be -> es: Call send mail service
 es++
-es->es :Send password to User's mail
+es->es : _emailService.SendEmailAsync()
 es++
 es--
 es--

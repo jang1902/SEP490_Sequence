@@ -12,13 +12,13 @@ a->fe : Request update Patient
 fe++
 fe -> be: Request update Patient
 be++
-be -> be: Validate request
+be -> be: _validator.ValidateAndThrow()
 alt Validate fail
 be -->> fe: Return fail message
 fe -->> a: Show fail message
 end
 
-be -> db: Query get Patient if Patient is existed
+be -> db: _patientRepository.GetPatientByIdAsync()
 db++
 db --> be: return result
 db--
@@ -27,7 +27,7 @@ be -->> fe: Return fail message
 fe -->> a: Show fail message
 
 end
-be->db: update Patient information
+be->db: update Patient information (_unitOfWork.SaveChangesAsync())
 db++
 db--> be: return result
 db--
